@@ -6,13 +6,15 @@
 /*   By: pedro <pedro@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 17:20:37 by pedro             #+#    #+#             */
-/*   Updated: 2025/08/15 17:43:45 by pedro            ###   ########.fr       */
+/*   Updated: 2025/08/15 18:57:18 by pedro            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minitalk.h"
 
-int main()
+int main(int ac, char *av[])
 {
-    printf("2\n");
+    (void)ac;
+    int pid = atoi(av[1]);
+    kill(pid, SIGINT);
 }
