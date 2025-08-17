@@ -6,28 +6,53 @@
 /*   By: pbongiov <pbongiov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 17:20:37 by pedro             #+#    #+#             */
-/*   Updated: 2025/08/16 20:44:29 by pbongiov         ###   ########.fr       */
+/*   Updated: 2025/08/17 22:12:27 by pbongiov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minitalk.h"
 
-void	char_to_bin(int pid , char c)
+int	ft_atoi(const char *str)
 {
-	int i;
-	
+	int	i;
+	int	sign;
+	int	n;
+
+	i = 0;
+	n = 0;
+	sign = 1;
+	while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
+		i++;
+	if (str[i] == '+' || str[i] == '-')
+	{
+		if (str[i] == '-')
+			sign = -sign;
+		i++;
+	}
+	while (str[i] >= '0' && str[i] <= '9')
+	{
+		n = n * 10 + (str[i] - '0');
+		i++;
+	}
+	return (n * sign);
+}
+
+void	char_to_bin(int pid, char c)
+{
+	int	i;
+
 	i = 0;
 	while (i < 8)
 	{
-		if ((c >> i++) & 1)	
+		if ((c >> i++) & 1)
 			kill(pid, SIGUSR2);
 		else
 			kill(pid, SIGUSR1);
-		usleep(1500);
+		usleep(3000);
 	}
 }
 
-void handler_sigusr(int sig)
+void	handler_sigusr(int sig)
 {
 	if (sig == SIGUSR2)
 	{
@@ -36,45 +61,42 @@ void handler_sigusr(int sig)
 	}
 }
 
-void ft_strlen(char *str, int pid)
+void	ft_strlen(char *str, int pid)
 {
-	int i;
-	int j;
+	int	len;
+	int	i;
 
+	len = 0;
 	i = 0;
-	j = 0;
-	while (str[i])
-		i++;
-	while (j < 31)
+	while (str[len])
+		len++;
+	while (i < 32)
 	{
-		if ((i >> j++) & 1)	
-		{
-			if (kill (pid, 0) != -1)
-				kill(pid, SIGUSR2);
-		}
+		if ((len >> i++) & 1)
+			kill(pid, SIGUSR2);
 		else
 			kill(pid, SIGUSR1);
-		usleep(1500);
+		usleep(3000);
 	}
 }
 
 int	main(int ac, char **av)
 {
-	int pid;
-	int i;
+	int	pid;
+	int	i;
 
-	pid = atoi(av[1]);
+	pid = ft_atoi(av[1]);
 	i = 0;
 	if (ac != 3 || pid < 1)
 		return (0);
 	signal(SIGUSR1, handler_sigusr);
 	signal(SIGUSR2, handler_sigusr);
 	ft_strlen(av[2], pid);
-	while(1)
+	while (1)
 	{
 		char_to_bin(pid, av[2][i]);
 		if (!av[2][i])
-			break;
+			break ;
 		i++;
 	}
 	pause();

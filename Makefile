@@ -6,7 +6,7 @@
 #    By: pbongiov <pbongiov@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/23 20:52:10 by pbongiov          #+#    #+#              #
-#    Updated: 2025/08/16 19:21:18 by pbongiov         ###   ########.fr        #
+#    Updated: 2025/08/17 18:15:03 by pbongiov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,7 +50,7 @@ clean:
 	rm -rf $(SERVER_OBJS) $(CLIENT_OBJS)
 
 fclean:		clean
-	rm -rf $(NAME_SERVER) $(NAME_CLIENT)
+	rm -rf $(NAME_SERVER) $(NAME_CLIENT) $(OBJS_DIR)
 
 re:		fclean 	all
 

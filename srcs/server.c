@@ -6,26 +6,39 @@
 /*   By: pbongiov <pbongiov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 17:20:29 by pedro             #+#    #+#             */
-/*   Updated: 2025/08/16 20:45:24 by pbongiov         ###   ########.fr       */
+/*   Updated: 2025/08/17 22:19:39 by pbongiov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minitalk.h"
 
-int bin_to_char(int sig, char *msg)
+void	ft_bzero(void *s, size_t len)
 {
-	static int i;
-	static char c;
-	static int index;
+	size_t	i;
 
-	c =  (sig << i) | c;
+	i = 0;
+	while (i < len)
+	{
+		((unsigned char *)s)[i] = '\0';
+		i++;
+	}
+}
+
+int	bin_to_char(int bin, char *msg)
+{
+	static int	i;
+	static char	c;
+	static int	index;
+
+	c |= (bin << i);
 	if (i == 7)
-	{	
+	{
 		msg[index++] = c;
 		if (c == 0)
-		{	
+		{
 			ft_printf("%s\n", msg);
 			index = 0;
+			free(msg);
 		}
 		i = 0;
 		c = 0;
@@ -37,34 +50,49 @@ int bin_to_char(int sig, char *msg)
 	return (0);
 }
 
-void handler_sigusr(int sig, siginfo_t *i)
+void	handler_sigusr(int sig, siginfo_t *i)
 {
-	static char *msg;
-	static char len;
-	static int j;
+	static char			*msg;
+	static unsigned int	len;
+	static int			j;
+	static int			m;
 
 	if (j < 32)
-		len =  (sig << j++) | len;
-	msg = malloc(len + 1);
-	if(bin_to_char(sig == SIGUSR2, msg))
-		kill(i->si_pid, SIGUSR2);
+		len |= (sig << j++);
 	else
-		kill(i->si_pid, SIGUSR1);
+	{
+		if (m++ == 0)
+		{
+			msg = malloc(len + 1);
+			if(!msg)
+				exit(0);
+		}
+		if (bin_to_char(sig == SIGUSR2, msg))
+		{
+			kill(i->si_pid, SIGUSR2);
+			len = 0;
+			j = 0;
+			m = 0;
+		}
+		// else
+		// 	kill(i->si_pid, SIGUSR1);
+	}
 }
 
-int main ()
+int	main(void)
 {
-    int pid = getpid();
+	int					pid;
 	struct sigaction	action;
-	
-    printf("PID: %i\n", pid);
+
+	pid = getpid();
+	printf("PID: %i\n", pid);
+	ft_bzero(&action, sizeof(action));
 	sigaddset(&action.sa_mask, SIGUSR1);
 	sigaddset(&action.sa_mask, SIGUSR2);
 	action.sa_flags = SA_SIGINFO;
-	action.sa_sigaction = (void *) handler_sigusr;
+	action.sa_sigaction = (void *)handler_sigusr;
 	sigaction(SIGUSR1, &action, NULL);
 	sigaction(SIGUSR2, &action, NULL);
-
-    while(1)
+	while (1)
 		pause();
 }
