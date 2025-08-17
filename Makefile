@@ -6,7 +6,7 @@
 #    By: pbongiov <pbongiov@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/23 20:52:10 by pbongiov          #+#    #+#              #
-#    Updated: 2025/08/16 19:02:01 by pbongiov         ###   ########.fr        #
+#    Updated: 2025/08/16 19:21:18 by pbongiov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,7 @@ NAME_CLIENT = client
 
 SERVER_FILES = server.c
 CLIENT_FILES = client.c
+COMMON_FILES = ft_printf.c
 
 SRCS_DIR = srcs
 
@@ -22,8 +23,11 @@ SRCS = $(addprefix $(SRCS_DIR)/, $(SRCS_FILES))
 
 OBJS_DIR = objs
 
-SERVER_OBJS	=$(addprefix $(OBJS_DIR)/, $(SERVER_FILES:.c=.o))
-CLIENT_OBJS =$(addprefix $(OBJS_DIR)/, $(CLIENT_FILES:.c=.o))
+SERVER_SRCS = $(addprefix $(SRCS_DIR)/, $(SERVER_FILES) $(COMMON_FILES))
+CLIENT_SRCS = $(addprefix $(SRCS_DIR)/, $(CLIENT_FILES) $(COMMON_FILES))
+
+SERVER_OBJS = $(addprefix $(OBJS_DIR)/, $(notdir $(SERVER_SRCS:.c=.o)))
+CLIENT_OBJS = $(addprefix $(OBJS_DIR)/, $(notdir $(CLIENT_SRCS:.c=.o)))
 
 CFLAGS = -g -Wall -Wextra -Werror
 CC = cc
