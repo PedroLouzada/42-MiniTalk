@@ -1,5 +1,7 @@
 # Minitalk
 
+<img src="readme_img/Screenshot from 2025-08-19 15-56-31.png" width="600" alt="push_swap Banner" />
+
 ## About the Project
 
 Minitalk is a 42 project where the challenge is to create simple communication between two processes using Unix signals (`SIGUSR1` and `SIGUSR2`).
