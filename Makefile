@@ -6,7 +6,7 @@
 #    By: pbongiov <pbongiov@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/23 20:52:10 by pbongiov          #+#    #+#              #
-#    Updated: 2025/08/17 18:15:03 by pbongiov         ###   ########.fr        #
+#    Updated: 2025/08/18 15:19:39 by pbongiov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ CLIENT_SRCS = $(addprefix $(SRCS_DIR)/, $(CLIENT_FILES) $(COMMON_FILES))
 SERVER_OBJS = $(addprefix $(OBJS_DIR)/, $(notdir $(SERVER_SRCS:.c=.o)))
 CLIENT_OBJS = $(addprefix $(OBJS_DIR)/, $(notdir $(CLIENT_SRCS:.c=.o)))
 
-CFLAGS = -g -Wall -Wextra -Werror
+CFLAGS = -g #-Wall -Wextra -Werror
 CC = cc
 
 all:	$(NAME_SERVER) $(NAME_CLIENT)

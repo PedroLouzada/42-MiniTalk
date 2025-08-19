@@ -6,7 +6,7 @@
 /*   By: pbongiov <pbongiov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 17:20:37 by pedro             #+#    #+#             */
-/*   Updated: 2025/08/17 22:12:27 by pbongiov         ###   ########.fr       */
+/*   Updated: 2025/08/18 15:21:17 by pbongiov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,14 @@ void	char_to_bin(int pid, char c)
 	while (i < 8)
 	{
 		if ((c >> i++) & 1)
-			kill(pid, SIGUSR2);
+		{
+			if (kill(pid, SIGUSR2) == -1)
+				exit(0);
+		}
 		else
-			kill(pid, SIGUSR1);
-		usleep(3000);
+			if (kill(pid, SIGUSR1) == -1)
+				exit(0);
+		usleep(1500);
 	}
 }
 
@@ -76,7 +80,7 @@ void	ft_strlen(char *str, int pid)
 			kill(pid, SIGUSR2);
 		else
 			kill(pid, SIGUSR1);
-		usleep(3000);
+		usleep(1500);
 	}
 }
 

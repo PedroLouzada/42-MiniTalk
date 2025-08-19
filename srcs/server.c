@@ -6,7 +6,7 @@
 /*   By: pbongiov <pbongiov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 17:20:29 by pedro             #+#    #+#             */
-/*   Updated: 2025/08/17 22:19:39 by pbongiov         ###   ########.fr       */
+/*   Updated: 2025/08/18 15:17:41 by pbongiov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	handler_sigusr(int sig, siginfo_t *i)
 		if (m++ == 0)
 		{
 			msg = malloc(len + 1);
-			if(!msg)
+			if (!msg)
 				exit(0);
 		}
 		if (bin_to_char(sig == SIGUSR2, msg))
@@ -74,8 +74,8 @@ void	handler_sigusr(int sig, siginfo_t *i)
 			j = 0;
 			m = 0;
 		}
-		// else
-		// 	kill(i->si_pid, SIGUSR1);
+		else
+			kill(i->si_pid, SIGUSR1);
 	}
 }
 
