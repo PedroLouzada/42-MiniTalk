@@ -89,9 +89,11 @@ int	main(int ac, char **av)
 	int	pid;
 	int	i;
 
+	if (ac != 3)
+		return (0);
 	pid = ft_atoi(av[1]);
 	i = 0;
-	if (ac != 3 || pid < 1)
+	if (pid < 1)
 		return (0);
 	signal(SIGUSR1, handler_sigusr);
 	signal(SIGUSR2, handler_sigusr);
